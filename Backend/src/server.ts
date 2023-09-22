@@ -4,6 +4,7 @@ import env from './utils/validateEnv';
 import noteRoutes from './routes/notes';
 import { connectDB } from './config/db';
 import morgan from 'morgan';
+import createHttpError,{isHttpError} from 'http-errors';
 
 const app = express();
 const port = env.PORT || 5000;
@@ -14,15 +15,18 @@ app.use(express.json());
 app.use('/api/notes',noteRoutes);
 
 app.use((req,res,next)=>{
-    next(Error('Incorrect URL'));
+    next(createHttpError(404,'Incorrect URL entered!'));
 })
 
 app.use((error:unknown,req:Request,res:Response,next:NextFunction)=>{
-        let errorMessage = 'An unknown error occured';
-        if(error instanceof Error){
+        console.error(error);
+        let statusCode = 500;
+        let errorMessage = 'An unknown error occured'
+        if(isHttpError(error)){
+            statusCode = error.status;
             errorMessage = error.message;
         }
-        res.status(500).json({error:errorMessage});
+        res.status(statusCode).json({error:errorMessage});
 
 });
 
