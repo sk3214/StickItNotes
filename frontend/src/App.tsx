@@ -47,7 +47,7 @@ function App() {
           <Note 
           note={note} 
           className={styles.note}
-          onNoteClicked={setNoteToEdit} 
+          onNoteClicked={()=>setNoteToEdit(note)} 
           onDeleteNoteClicked={removeNote}/>
         </Col>
       ))}
@@ -60,8 +60,18 @@ function App() {
       }
       
       { noteToEdit && 
-        <AddEditNoteDialog onDismiss={()=>setNoteToEdit(null)}  onNoteSaved={(updatedNote)=>{
-          setNotes(notes.map(existingNote=> existingNote._id===updatedNote._id ? updatedNote : existingNote));
+        <AddEditNoteDialog 					
+        noteToEdit={noteToEdit}
+        onDismiss={()=>setNoteToEdit(null)}  
+        onNoteSaved={(updatedNote)=>{
+          console.log(updatedNote);
+          setNotes(notes.map((existingNote)=>{
+            if(existingNote._id!==updatedNote._id){
+              return existingNote;
+            }
+            return updatedNote;
+          }));
+          console.log(notes);
           setNoteToEdit(null);
         }}/>
       }

@@ -33,7 +33,7 @@ export async function createNote(note:noteInput): Promise<Note>{
 }
 
 export async function updateNote(noteId:String,note:noteInput): Promise<Note>{
-    const response = await fetchData('/api/notes/'+note,{
+    const response = await fetchData('/api/notes/'+noteId,{
         method:"PATCH",
         headers:{
             "Content-Type":"application/json",

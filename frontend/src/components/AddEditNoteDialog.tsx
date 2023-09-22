@@ -11,13 +11,14 @@ interface AddEditNoteDialogProps {
 }
 
 const AddEditNoteDialog = ({noteToEdit,onDismiss,onNoteSaved}:AddEditNoteDialogProps) => {
+	console.log('noteToEdit',noteToEdit);
+	const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<noteInput>({
+		defaultValues: {
+				title: noteToEdit?.title || "",
+				text: noteToEdit?.text || "",
+		}
+});
 
-    const { register, handleSubmit, formState:{errors, isSubmitting} } = useForm<noteInput>({
-        defaultValues: {
-            title: noteToEdit?.title || "",
-            text: noteToEdit?.text || "",
-        }
-    });
     async function onSubmit(input:noteInput){
         try{
             let notesResponse:Note;
