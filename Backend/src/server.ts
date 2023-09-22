@@ -3,11 +3,12 @@ import 'dotenv/config';
 import env from './utils/validateEnv';
 import noteRoutes from './routes/notes';
 import { connectDB } from './config/db';
+import morgan from 'morgan';
 
 const app = express();
 const port = env.PORT || 5000;
 connectDB();
-
+app.use(morgan('dev'));
 app.use(express.json());
 
 app.use('/api/notes',noteRoutes);
