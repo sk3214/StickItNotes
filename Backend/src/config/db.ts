@@ -1,9 +1,10 @@
 import mongoose, { ConnectOptions }  from 'mongoose';
 import 'dotenv/config';
+import env from '../utils/validateEnv'
 
 export const connectDB  = async()=>{
 try{
-    const conn = await mongoose.connect(process.env.MONGO_URI!, {
+    const conn = await mongoose.connect(env.MONGO_URI, {
         useUnifiedTopology: true,
         useNewUrlParser: true,
       } as ConnectOptions);
