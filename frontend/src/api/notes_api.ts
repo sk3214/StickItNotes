@@ -21,7 +21,7 @@ export interface noteInput {
     text?:string,
 }
 
-export async function createNote(note:noteInput): Promise<Note[]>{
+export async function createNote(note:noteInput): Promise<Note>{
     const response = await fetchData('/api/notes',{
         method:"POST",
         headers:{

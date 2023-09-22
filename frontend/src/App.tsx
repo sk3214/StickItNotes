@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Note as NoteModel } from './models/note';
 import Note from './components/Note';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import styles from './styles/NotesPage.module.css';
 import * as notesApi from "./api/notes_api";
+import AddNoteDialog from './components/AddNoteDialog';
+import styleUtils from './styles/util.module.css';
 
 function App() {
   const [notes,setNotes] = useState<NoteModel[]>([]);
+  const [showAddNoteDialog,setShowAddNoteDialog] = useState(false);
   useEffect(()=>{
     async function loadData(){
       try{
         const notes = await notesApi.fetchNotes();
-        // console.log('Response',response);
-        // console.log(noteResponse);
         setNotes(notes);  
       }catch(error){
         console.error(error);
@@ -23,6 +24,11 @@ function App() {
   },[]);
   return (
       <Container>
+      <Button
+        className={`mb-4 ${styleUtils.blockCenter}`} 
+        onClick={()=>setShowAddNoteDialog(true)}>
+        Add New Note
+        </Button>
       <Row xs={1} md={2} xl={3} className='g-4'>
       {notes.map(note=>(
         <Col key={note._id} className='g-4'>
@@ -30,6 +36,12 @@ function App() {
         </Col>
       ))}
       </Row>
+      { showAddNoteDialog && 
+        <AddNoteDialog onDismiss={()=>setShowAddNoteDialog(false)} onNoteSaved={(newNote)=>{
+          setNotes([...notes,newNote]);
+          setShowAddNoteDialog(false);
+        }}/>
+      }
       </Container>
   );
 }
