@@ -3,16 +3,21 @@ import { Note } from "../models/note";
 async function fetchData(input:RequestInfo,init:RequestInit){
     const response  = await fetch(input,init);
     if(response.ok){
+        // console.log('response',response);
         return response;
     }else{
         const errorBody = await response.json();
         const errorMessage = errorBody.error();
+        console.log('Are we comming in error?');
         throw Error(errorMessage);
     }
 }
 
 export async function fetchNotes(): Promise<Note[]> {
     const response = await fetch('api/notes/',{method:"GET"});
+    // console.log('response');
+    // console.log(typeof(response));
+    // console.log(response);
     return response.json();
 }
 

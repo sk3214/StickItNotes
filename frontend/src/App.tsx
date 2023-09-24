@@ -25,7 +25,9 @@ function App() {
         return notes;
     } 
     loadData().then((notes)=>{
-      console.log('try');
+      if('error' in notes){
+        throw new Error('Some Error in retrieving Notes');
+      }
       setNotes(notes);
     }).catch((error)=>{
       console.log('catch');
