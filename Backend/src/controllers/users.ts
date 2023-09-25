@@ -79,7 +79,7 @@ export const login:RequestHandler<unknown,unknown,loginBody,unknown> = async(req
 
 export const logOut:RequestHandler = (req,res,next)=>{
     req.session.destroy((error)=>{
-        console.log('error object', error);
+        // console.log('error object', error);
         if(error){
             next(error);
         }else{
